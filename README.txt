@@ -18,5 +18,7 @@ Notes:
 
 	If an edition is not provided, it defaults to Java (since Bedrock doesn't really have versions to choose from). If a version is not provided, it defaults to the latest version for that edition (this is why either a version or edition is needed).
 
-This project is licensed under AGPL v3. View the project source at https://github.com/3vorp/convert-pack.
-Copyright (C) 2024 Evorp
+Credits:
+	This project is powered by the Faithful texture database (https://faithfulpack.net).
+	View the source at https://github.com/3vorp/convert-pack.
+	Copyright (C) 2024 Evorp with AGPL-3.
