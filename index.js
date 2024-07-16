@@ -1,64 +1,106 @@
-#!/usr/bin/env node
+const { copyFile, mkdir } = require("fs/promises");
+// why is there no async exists function
+const { existsSync } = require("fs");
 
-const { existsSync, readFileSync } = require("fs");
-const { convertPack } = require("./convertPack");
-
-const args = require("minimist")(process.argv.slice(2), {
-	alias: {
-		"input-version": ["iv"],
-		"output-version": ["ov"],
-		"input-edition": ["ie"],
-		"output-edition": ["oe"],
-		verbose: ["v"],
-		help: ["h"],
-	},
-	boolean: ["verbose", "help"],
-});
-
-if (args.help) {
-	const helpPage = readFileSync("./README.txt", { encoding: "utf8" });
-	console.log(helpPage);
-	process.exit(0);
+async function getLatestVersion(edition) {
+	const versions = await fetch(`https://api.faithfulpack.net/v2/settings/versions`).then((res) =>
+		res.json(),
+	);
+	return versions[edition][0];
 }
 
-if (!Object.groupBy || typeof Object.groupBy !== "function") {
-	console.error(`You need a newer version of Node.js to run this program! (>=21.0)`);
-	process.exit(1);
+async function generateConversionMap(inputEdition, outputEdition) {
+	const paths = await fetch("https://api.faithfulpack.net/v2/paths/raw")
+		.then((res) => res.json())
+		.then((res) => Object.values(res));
+	const uses = await fetch("https://api.faithfulpack.net/v2/uses/raw").then((res) => res.json());
+
+	// add the edition to paths by taking parent use
+	const editionPaths = paths.map(({ name, use, versions }) => ({
+		name,
+		versions,
+		texture: parseInt(use),
+		// object lookup is much faster than find
+		edition: uses[use].edition,
+	}));
+
+	// group paths by texture ID
+	const grouped = Object.groupBy(editionPaths, ({ texture }) => texture);
+
+	// group again by edition
+	return (
+		Object.values(grouped)
+			.map((paths) => Object.groupBy(paths, ({ edition }) => edition))
+			// check that all editions needed are present
+			.filter((obj) => obj[inputEdition]?.length && obj[outputEdition]?.length)
+	);
 }
 
-const options = {
-	inputDir: args._?.[0],
-	outputDir: args._?.[1],
-	inputEdition: args.ie,
-	outputEdition: args.oe,
-	inputVersion: args.iv,
-	outputVersion: args.ov,
-	verbose: args.verbose,
+async function convertPack({
+	verbose,
+	inputDir,
+	outputDir,
+	inputEdition,
+	outputEdition,
+	inputVersion,
+	outputVersion,
+} = {}) {
+	// if there's a version and no edition it's probably java
+	if (!inputEdition && inputVersion) inputEdition = "java";
+	if (!outputEdition && outputVersion) outputEdition = "java";
+
+	// if there's no version assume latest
+	if (inputEdition && (!inputVersion || inputVersion === "latest"))
+		inputVersion = await getLatestVersion(inputEdition);
+
+	if (outputEdition && !(outputVersion || outputVersion === "latest"))
+		outputVersion = await getLatestVersion(outputEdition);
+
+	console.log("Creating conversion map...");
+
+	const conversionMap = await generateConversionMap(inputEdition, outputEdition);
+	console.log("Starting conversion process...");
+
+	await Promise.all(
+		conversionMap.map((paths) => {
+			// get first match for version
+			const inputPath = paths[inputEdition].find((path) =>
+				path.versions.includes(inputVersion),
+			);
+			if (!inputPath) return Promise.resolve();
+			const imageToCopy = `${inputDir}/${inputPath.name}`;
+			// check that image exists before writing it
+			if (!existsSync(imageToCopy)) {
+				if (verbose) console.log(`Can't find ${imageToCopy}, skipping...`);
+				return Promise.resolve();
+			}
+			return Promise.all(
+				paths[outputEdition]
+					// get all matching paths for version
+					.filter((path) => path.versions.includes(outputVersion))
+					.map(({ name: outputPath }) => {
+						// create parent directory if it doesn't exist yet
+						const dir = `${outputDir}/${outputPath.slice(
+							0,
+							outputPath.lastIndexOf("/"),
+						)}`;
+						const prom = existsSync(dir)
+							? Promise.resolve()
+							: mkdir(dir, { recursive: true });
+						return prom
+							.then(() => copyFile(imageToCopy, `${outputDir}/${outputPath}`))
+							.then(() => {
+								if (verbose)
+									console.log(`Copied ${inputPath.name} to ${outputPath}`);
+							});
+					}),
+			);
+		}),
+	);
+	console.log(`Finished copying files to ${outputDir}!`);
+}
+
+module.exports = {
+	generateConversionMap,
+	convertPack,
 };
-
-// validation stuff
-if (!args._?.[0] || !existsSync(args._?.[0])) {
-	console.error("Input folder doesn't exist!");
-	process.exit(1);
-}
-
-if (!args._?.[1]) {
-	console.error("No output directory specified!");
-	process.exit(1);
-}
-
-if (!options.inputEdition && !options.inputVersion) {
-	console.error(
-		"Not enough input information provided! (edition or version required at minimum)",
-	);
-	process.exit(1);
-}
-
-if (!options.outputEdition && !options.outputVersion) {
-	console.error(
-		"Not enough output information provided! (edition or version required at minimum)",
-	);
-	process.exit(1);
-}
-
-convertPack(options);

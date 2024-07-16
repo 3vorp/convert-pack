@@ -28,16 +28,6 @@ Notes:
 	defaults to the latest version for that edition (this is why either a
 	version or edition is needed).
 
-JavaScript Usage:
-	There are two named exports when importing or requiring the project in
-	JavaScript: convertPack and generateConversionMap.
-
-	convertPack performs all the I/O operations with file writing and
-	generateConversionMap creates the underlying data structure used to
-	convert a resource pack. convertPack takes an object with essentially
-	the same options as the CLI provides, and generateConversionMap only
-	needs the input and output edition to filter relevant paths.
-
 Credits:
 	This project is powered by the Faithful database (https://faithfulpack.net).
 	View the source at https://github.com/3vorp/convert-pack.

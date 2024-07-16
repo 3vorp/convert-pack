@@ -2,12 +2,9 @@
 	"name": "convert-pack",
 	"version": "1.0.0",
 	"description": "Convert a Minecraft resource pack between versions and editions with (relative) ease.",
-	"main": "convertPack.js",
+	"main": "index.js",
 	"bin": {
-		"convert-pack": "index.js"
-	},
-	"scripts": {
-		"start": "node ./index.js"
+		"convert-pack": "cli.js"
 	},
 	"repository": {
 		"type": "git",
