@@ -26,4 +26,4 @@ Notes:
 Credits:
 	This project is powered by the Faithful database (https://faithfulpack.net).
 	View the source at https://github.com/3vorp/convert-pack.
-	Copyright (C) 2024 Evorp with AGPL-3.
+	Copyright (C) 2024 Evorp with AGPL-3.0.

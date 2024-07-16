@@ -1,18 +1,30 @@
 {
-  "name": "convert-pack",
-  "version": "1.0.0",
-  "description": "Convert a resource pack between versions and editions with relative ease.",
-  "main": "index.js",
-  "bin": {
-    "convert-pack": "index.js"
-  },
-  "scripts": {
-    "dev": "node ./index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "AGPL-3.0-only",
-  "dependencies": {
-    "minimist": "^1.2.8"
-  }
+	"name": "convert-pack",
+	"version": "1.0.0",
+	"description": "Convert a resource pack between versions and editions with (relative) ease.",
+	"main": "index.js",
+	"bin": {
+		"convert-pack": "index.js"
+	},
+	"scripts": {
+		"start": "node ./index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/3vorp/convert-pack"
+	},
+	"bugs": {
+		"url": "https://github.com/3vorp/convert-pack/issues"
+	},
+	"keywords": [
+		"cli",
+		"minecraft",
+		"resource pack",
+		"texture pack"
+	],
+	"author": "Evorp",
+	"license": "AGPL-3.0",
+	"dependencies": {
+		"minimist": "^1.2.8"
+	}
 }
