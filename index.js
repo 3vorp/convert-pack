@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 const { existsSync, readFileSync } = require("fs");
-const convertPack = require("./convertPack");
-module.exports = convertPack;
+const { convertPack } = require("./convertPack");
 
 const args = require("minimist")(process.argv.slice(2), {
 	alias: {
@@ -13,13 +12,18 @@ const args = require("minimist")(process.argv.slice(2), {
 		verbose: ["v"],
 		help: ["h"],
 	},
-	boolean: ["verbose"],
+	boolean: ["verbose", "help"],
 });
 
 if (args.help) {
 	const helpPage = readFileSync("./README.txt", { encoding: "utf8" });
 	console.log(helpPage);
 	process.exit(0);
+}
+
+if (!Object.groupBy || typeof Object.groupBy !== "function") {
+	console.error(`You need a newer version of Node.js to run this program! (>=21.0)`);
+	process.exit(1);
 }
 
 const options = {

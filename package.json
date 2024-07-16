@@ -1,8 +1,8 @@
 {
 	"name": "convert-pack",
 	"version": "1.0.0",
-	"description": "Convert a resource pack between versions and editions with (relative) ease.",
-	"main": "index.js",
+	"description": "Convert a Minecraft resource pack between versions and editions with (relative) ease.",
+	"main": "convertPack.js",
 	"bin": {
 		"convert-pack": "index.js"
 	},

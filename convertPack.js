@@ -2,9 +2,6 @@ const { copyFile, mkdir } = require("fs/promises");
 // why is there no async exists function
 const { existsSync } = require("fs");
 
-if (!Object.groupBy || typeof Object.groupBy !== "function")
-	return console.error(`You need a newer version of Node.js to run this program! (>=21.0)`);
-
 async function getLatestVersion(edition) {
 	const versions = await fetch(`https://api.faithfulpack.net/v2/settings/versions`).then((res) =>
 		res.json(),
@@ -39,7 +36,7 @@ async function generateConversionMap(inputEdition, outputEdition) {
 	);
 }
 
-module.exports = async function convertPack({
+async function convertPack({
 	verbose,
 	inputDir,
 	outputDir,
@@ -101,4 +98,9 @@ module.exports = async function convertPack({
 		}),
 	);
 	console.log(`Finished copying files to ${outputDir}!`);
+}
+
+module.exports = {
+	generateConversionMap,
+	convertPack,
 };
