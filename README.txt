@@ -14,11 +14,16 @@ Arguments:
 	--output-edition | --oe: Set the target edition.
 
 Notes:
-	Either an edition or version needs to be provided for the input and output, since otherwise there's not enough information to convert the pack. Both can be provided for additional context if needed.
+	Either an edition or version needs to be provided for the input and output,
+	since otherwise there's not enough information to convert the pack. Both
+	can be provided for additional context if needed.
 
-	If an edition is not provided, it defaults to Java (since Bedrock doesn't really have versions to choose from). If a version is not provided, it defaults to the latest version for that edition (this is why either a version or edition is needed).
+	If an edition is not provided, it defaults to Java (since Bedrock doesn't
+	really have versions to choose from). If a version is not provided, it
+	defaults to the latest version for that edition (this is why either a
+	version or edition is needed).
 
 Credits:
-	This project is powered by the Faithful texture database (https://faithfulpack.net).
+	This project is powered by the Faithful database (https://faithfulpack.net).
 	View the source at https://github.com/3vorp/convert-pack.
 	Copyright (C) 2024 Evorp with AGPL-3.
