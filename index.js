@@ -17,7 +17,7 @@ const args = require("minimist")(process.argv.slice(2), {
 });
 
 if (args.help) {
-	const helpPage = readFileSync("./README.md", { encoding: "utf8" });
+	const helpPage = readFileSync("./README.txt", { encoding: "utf8" });
 	console.log(helpPage);
 	process.exit(0);
 }
