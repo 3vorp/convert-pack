@@ -39,10 +39,15 @@ async function generateConversionMap(inputEdition, outputEdition) {
 	);
 }
 
-module.exports = async function convertPack(
-	DEBUG,
-	{ inputDir, outputDir, inputEdition, outputEdition, inputVersion, outputVersion } = {},
-) {
+module.exports = async function convertPack({
+	verbose,
+	inputDir,
+	outputDir,
+	inputEdition,
+	outputEdition,
+	inputVersion,
+	outputVersion,
+} = {}) {
 	// if there's a version and no edition it's probably java
 	if (!inputEdition && inputVersion) inputEdition = "java";
 	if (!outputEdition && outputVersion) outputEdition = "java";
@@ -69,7 +74,7 @@ module.exports = async function convertPack(
 			const imageToCopy = `${inputDir}/${inputPath.name}`;
 			// check that image exists before writing it
 			if (!existsSync(imageToCopy)) {
-				if (DEBUG) console.log(`Can't find ${imageToCopy}, skipping...`);
+				if (verbose) console.log(`Can't find ${imageToCopy}, skipping...`);
 				return Promise.resolve();
 			}
 			return Promise.all(
@@ -88,7 +93,8 @@ module.exports = async function convertPack(
 						return prom
 							.then(() => copyFile(imageToCopy, `${outputDir}/${outputPath}`))
 							.then(() => {
-								if (DEBUG) console.log(`Copied ${inputPath.name} to ${outputPath}`);
+								if (verbose)
+									console.log(`Copied ${inputPath.name} to ${outputPath}`);
 							});
 					}),
 			);
