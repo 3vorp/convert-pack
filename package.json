@@ -1,11 +1,14 @@
 {
 	"name": "convert-pack",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "Convert a Minecraft resource pack between versions and editions with (relative) ease.",
 	"main": "index.js",
 	"bin": {
 		"convert-pack": "cli.js"
 	},
+	"man": [
+		"convert-pack.1"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/3vorp/convert-pack"

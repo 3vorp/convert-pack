@@ -17,7 +17,9 @@ const args = require("minimist")(process.argv.slice(2), {
 });
 
 if (args.help) {
-	const helpPage = readFileSync(resolve(__dirname, "./cli_help.txt"), { encoding: "utf8" });
+	const manPage = readFileSync(resolve(__dirname, "./convert-pack.1"), { encoding: "utf8" });
+	// very quick solution to support man pages and a help menu with the same file
+	const helpPage = manPage.replace(/\n\.br\n/g, "\n");
 	console.log(helpPage);
 	process.exit();
 }
@@ -39,7 +41,7 @@ const options = {
 
 // validation stuff
 if (!args._?.[0] || !existsSync(args._?.[0])) {
-	console.error("Input folder doesn't exist!");
+	console.error(`Input folder doesn't exist! (received "${args._?.[0]}")`);
 	process.exit(1);
 }
 

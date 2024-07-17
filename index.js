@@ -78,21 +78,15 @@ async function convertPack({
 				paths[outputEdition]
 					// get all matching paths for version
 					.filter((path) => path.versions.includes(outputVersion))
-					.map(({ name: outputPath }) => {
+					.map(async ({ name: outputPath }) => {
 						// create parent directory if it doesn't exist yet
 						const dir = `${outputDir}/${outputPath.slice(
 							0,
 							outputPath.lastIndexOf("/"),
 						)}`;
-						const prom = existsSync(dir)
-							? Promise.resolve()
-							: mkdir(dir, { recursive: true });
-						return prom
-							.then(() => copyFile(imageToCopy, `${outputDir}/${outputPath}`))
-							.then(() => {
-								if (verbose)
-									console.log(`Copied ${inputPath.name} to ${outputPath}`);
-							});
+						if (!existsSync(dir)) await mkdir(dir, { recursive: true });
+						await copyFile(imageToCopy, `${outputDir}/${outputPath}`);
+						if (verbose) console.log(`Copied ${inputPath.name} to ${outputPath}`);
 					}),
 			);
 		}),

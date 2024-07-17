@@ -1,34 +1,68 @@
 convert-pack - Convert a Minecraft resource pack between versions and editions with (relative) ease.
+.br
 
+.br
 Syntax:
+.br
 	convert-pack [--options] <input-dir> <output-dir>
+.br
 
+.br
 Examples:
+.br
 	convert-pack --input-edition java --output-version 1.8.9 ./input ./output
+.br
 	convert-pack --iv 1.12.2 --oe bedrock ./input
+.br
 	convert-pack . ./out --verbose --input-edition bedrock --output-edition java
+.br
 
+.br
 Arguments:
+.br
 	--help | -h: Show this page.
+.br
 	--verbose | -v: Log every file being converted.
+.br
 	--input-version | --iv: Set the input version.
+.br
 	--input-edition | --ie: Set the input edition.
+.br
 	--output-version | --ov: Set the target version.
+.br
 	--output-edition | --oe: Set the target edition.
+.br
 
+.br
 Notes:
+.br
 	Requires Node v21 or above (relies on Object.groupBy).
+.br
 
+.br
 	Either an edition or version needs to be provided for the input and output,
+.br
 	since otherwise there's not enough information to convert the pack. Both
+.br
 	can be provided for additional context if needed.
+.br
 
+.br
 	If an edition is not provided, it defaults to Java (since Bedrock doesn't
+.br
 	really have versions to choose from). If a version is not provided, it
+.br
 	defaults to the latest version for that edition (this is why either a
+.br
 	version or edition is needed).
+.br
 
+.br
 Credits:
+.br
 	This project is powered by the Faithful database (https://faithfulpack.net).
+.br
 	View the source at https://github.com/3vorp/convert-pack.
-	Copyright (C) 2024 Evorp.
+.br
+	Copyright (C) 2024 Evorp. Licensed under AGPL-3.0.
+.br

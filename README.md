@@ -22,14 +22,32 @@
 	<i>Convert a Minecraft resource pack between versions and editions with (relative) ease.</i>
 </div>
 
+## What is this project?
+
+`convert-pack` is a simple set of tools that lets you convert a pack from any edition and version to any other edition and version. It's not just a simple Java to Bedrock converter—if you want to go from Bedrock to 1.12.2, or 1.8.9 to the latest version, or vice versa for either, this tool has got you covered.
+
+This tool is optimized for pack developers trying to port their existing projects, and as such won't make any suboptimal decisions that many other converters make for the sake of filling in missing textures; instead **only identical textures will ever be copied**. This leaves you free to do whatever you want with version or edition-exclusive textures without worrying about them being broken or not showing up under a missing texture tool.
+
+The program is also designed to never need updating with new versions, since it pulls all texture-related information from the [Faithful API](https://faithfulpack.net) online. As such, it does require an internet connection to work, but has the benefit of being very lightweight since no data is stored on your computer.
+
 ## CLI Usage
 
-The primary use case for this project is installing the package globally with `sudo npm i -g convert-pack` for the `convert-pack` binary.
+The primary use case for this project is installing the package globally for the `convert-pack` binary. You may need `sudo` or to run your terminal as administrator to install global packages.
+
+```sh
+npm i -g convert-pack
+```
 
 The binary uses the syntax:
 
 ```sh
 convert-pack [--options] <input-dir> <output-dir>
+```
+
+If the package hasn't or can't been installed globally, you may need to use `npx`.
+
+```sh
+npx convert-pack [--options] <input-dir> <output-dir>
 ```
 
 The flags `--input-[version|edition]` and `--output-[version|edition]` are used to specify the source and target information required to convert the pack. Abbreviated forms are also available with `--iv`, `--ie`, `--ov`, and `--oe` (note that two hyphens are still used).
@@ -46,7 +64,7 @@ convert-pack . ./out --verbose --input-edition bedrock --output-edition java
 
 If an edition is not provided, it defaults to Java (since Bedrock doesn't really have versions to choose from). If a version is not provided, it defaults to the latest version for that edition (this is why either a version or edition is needed).
 
-You can see the [CLI help page](./cli_help.txt) or simply run `convert-pack --help` for more information.
+You can see the `man` page or run `convert-pack --help` for more information.
 
 ## JavaScript Usage
 
@@ -70,6 +88,12 @@ convertPack({
 ```js
 import { generateConversionMap } from "convert-pack";
 
-// bedrock -> java conversion
+// bedrock -> java conversion map
 const conversionMap = await generateConversionMap("bedrock", "java");
 ```
+
+## Credits
+
+This project is powered by the Faithful texture database, and would not be possible without their constantly updated, comprehensive texture data and public API (https://faithfulpack.net).
+
+Copyright (C) 2024 Evorp. Licensed under AGPL-3.0.
