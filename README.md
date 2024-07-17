@@ -23,7 +23,7 @@ convert-pack . ./out --verbose --input-edition bedrock --output-edition java
 
 If an edition is not provided, it defaults to Java (since Bedrock doesn't really have versions to choose from). If a version is not provided, it defaults to the latest version for that edition (this is why either a version or edition is needed).
 
-You can see the [CLI help page](./CLI.txt) or simply run `convert-pack --help` for more information.
+You can see the [CLI help page](./cli_help.txt) or simply run `convert-pack --help` for more information.
 
 ## JavaScript Usage
 

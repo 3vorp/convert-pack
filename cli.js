@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { existsSync, readFileSync } = require("fs");
+const { resolve } = require("path");
 const { convertPack } = require(".");
 
 const args = require("minimist")(process.argv.slice(2), {
@@ -16,7 +17,7 @@ const args = require("minimist")(process.argv.slice(2), {
 });
 
 if (args.help) {
-	const helpPage = readFileSync("./cli_help.txt", { encoding: "utf8" });
+	const helpPage = readFileSync(resolve(__dirname, "./cli_help.txt"), { encoding: "utf8" });
 	console.log(helpPage);
 	process.exit();
 }
