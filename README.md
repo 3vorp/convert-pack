@@ -28,7 +28,7 @@
 
 This tool is optimized for pack developers trying to port their existing projects, and as such won't make any suboptimal decisions that many other converters make for the sake of filling in missing textures; instead **only identical textures will ever be copied**. This leaves you free to do whatever you want with version or edition-exclusive textures without worrying about them being broken or not showing up under a missing texture tool.
 
-The program is also designed to never need updating with new versions, since it pulls all texture-related information from the [Faithful API](https://faithfulpack.net) online. As such, it does require an internet connection to work, but has the benefit of being very lightweight since no data is stored on your computer.
+The program is also designed to never need updating with new versions, since it pulls all texture-related information from the [Faithful API](https://api.faithfulpack.net/docs) online. As such, it does require an internet connection to work, but has the benefit of being very lightweight since no data is stored on your computer.
 
 ## CLI Usage
 
