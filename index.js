@@ -1,6 +1,7 @@
 const { copyFile, mkdir } = require("node:fs/promises");
 // why is there no async exists function
 const { existsSync } = require("node:fs");
+const { join } = require("node:path");
 
 async function getLatestVersion(edition) {
 	const versions = await fetch(
@@ -27,13 +28,10 @@ async function generateConversionMap(inputEdition, outputEdition) {
 	// group paths by texture ID
 	const grouped = Object.groupBy(editionPaths, ({ texture }) => texture);
 
-	// group again by edition
-	return (
-		Object.values(grouped)
-			.map((paths) => Object.groupBy(paths, ({ edition }) => edition))
-			// check that all editions needed are present
-			.filter((obj) => obj[inputEdition]?.length && obj[outputEdition]?.length)
-	);
+	// group again by edition and only keep relevant paths
+	return Object.values(grouped)
+		.map((paths) => Object.groupBy(paths, ({ edition }) => edition))
+		.filter((obj) => obj[inputEdition]?.length && obj[outputEdition]?.length);
 }
 
 async function convertPack({
@@ -62,33 +60,31 @@ async function convertPack({
 	console.log("Starting conversion process...");
 
 	await Promise.all(
-		conversionMap.map((paths) => {
+		conversionMap.flatMap((paths) => {
 			// get first match for version
 			const inputPath = paths[inputEdition].find((path) =>
 				path.versions.includes(inputVersion),
 			);
 			if (!inputPath) return Promise.resolve();
-			const imageToCopy = `${inputDir}/${inputPath.name}`;
+			const imageToCopy = join(inputDir, inputPath.name);
 			// check that image exists before writing it
 			if (!existsSync(imageToCopy)) {
 				if (verbose) console.log(`Can't find ${imageToCopy}, skipping...`);
 				return Promise.resolve();
 			}
-			return Promise.all(
-				paths[outputEdition]
-					// get all matching paths for version
-					.filter((path) => path.versions.includes(outputVersion))
-					.map(async ({ name: outputPath }) => {
-						// create parent directory if it doesn't exist yet
-						const dir = `${outputDir}/${outputPath.slice(
-							0,
-							outputPath.lastIndexOf("/"),
-						)}`;
-						if (!existsSync(dir)) await mkdir(dir, { recursive: true });
-						await copyFile(imageToCopy, `${outputDir}/${outputPath}`);
-						if (verbose) console.log(`Copied ${inputPath.name} to ${outputPath}`);
-					}),
-			);
+
+			// get all matching paths for version and copy them to the correct location
+			return paths[outputEdition]
+				.filter((path) => path.versions.includes(outputVersion))
+				.map(async ({ name: outputPath }) => {
+					// faithful paths always use forward slashes, don't use path.sep
+					const dir = join(outputDir, outputPath.slice(0, outputPath.lastIndexOf("/")));
+
+					// create parent directory if it doesn't exist yet
+					if (!existsSync(dir)) await mkdir(dir, { recursive: true });
+					await copyFile(imageToCopy, join(outputDir, outputPath));
+					if (verbose) console.log(`Copied ${inputPath.name} to ${outputPath}`);
+				});
 		}),
 	);
 	console.log(`Finished copying files to ${outputDir}!`);
