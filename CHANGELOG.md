@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made copying process faster.
 - Improved message if a folder path is invalid or not specified.
 - Use modern Faithful version API instead of reading the raw settings collection content.
+- Added a counter for the number of file copies (useful for debugging).
 
 ### Fixed
 

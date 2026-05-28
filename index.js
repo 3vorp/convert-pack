@@ -59,6 +59,8 @@ async function convertPack({
 	const conversionMap = await generateConversionMap(inputEdition, outputEdition);
 	console.log("Starting conversion process...");
 
+	// can't just use flatMapped length because it counts skipped files
+	let copies = 0;
 	await Promise.all(
 		conversionMap.flatMap((paths) => {
 			// get first match for version
@@ -83,11 +85,13 @@ async function convertPack({
 					// create parent directory if it doesn't exist yet
 					if (!existsSync(dir)) await mkdir(dir, { recursive: true });
 					await copyFile(imageToCopy, join(outputDir, outputPath));
+					++copies;
 					if (verbose) console.log(`Copied ${inputPath.name} to ${outputPath}`);
 				});
 		}),
 	);
-	console.log(`Finished copying files to ${outputDir}!`);
+
+	console.log(`Successfully copied ${copies} files to ${outputDir}!`);
 }
 
 module.exports = {
