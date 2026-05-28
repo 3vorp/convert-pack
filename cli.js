@@ -69,4 +69,30 @@ if (!options.outputEdition && !options.outputVersion) {
 	process.exit(1);
 }
 
-convertPack(options);
+(async () => {
+	// falls back to latest if not specified (don't make unnecessary fetch)
+	if (options.inputVersion || options.outputVersion) {
+		const versions = await fetch("https://api.faithfulpack.net/v2/versions/list").then((res) =>
+			res.json(),
+		);
+
+		// "latest" is a macro to the latest version for the given edition
+		versions.unshift("latest");
+
+		if (!versions.includes(options.inputVersion)) {
+			console.error(`Unknown input version (received ${options.inputVersion})!`);
+			console.error(`Available versions:\n- ${versions.join("\n- ")}`);
+			process.exit(1);
+		}
+
+		if (!versions.includes(options.outputVersion)) {
+			console.error(`Unknown input version (received ${options.inputVersion})!`);
+			console.error(`Available versions:\n- ${versions.join("\n- ")}`);
+			process.exit(1);
+		}
+	}
+	await convertPack(options);
+
+	// sometimes iifes have issues with exiting correctly
+	process.exit(0);
+})();

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Unsupported or invalid version conversions silently failing.
 - Incorrectly documenting that an output path is optional (it isn't).
 
 ## [1.1.0] - 2024-07-17
