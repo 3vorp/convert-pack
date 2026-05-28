@@ -40,13 +40,18 @@ const options = {
 };
 
 // validation stuff
-if (!args._?.[0] || !existsSync(args._?.[0])) {
-	console.error(`Input folder doesn't exist! (received "${args._?.[0]}")`);
+if (!args._?.[0]) {
+	console.error("No input folder path specified!");
+	process.exit(1);
+}
+
+if (!existsSync(args._[0])) {
+	console.error(`Input folder doesn't exist! (received "${args._[0]}")`);
 	process.exit(1);
 }
 
 if (!args._?.[1]) {
-	console.error("No output directory specified!");
+	console.error("No output folder path specified!");
 	process.exit(1);
 }
 

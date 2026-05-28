@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Improved message if a folder path is invalid or not specified.
 - Use modern Faithful version API instead of reading the raw settings collection content.
 
 ### Fixed
