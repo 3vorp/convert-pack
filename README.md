@@ -2,20 +2,20 @@
 	<h1>convert-pack</h1>
 	<a href="https://www.npmjs.com/package/convert-pack" target="_blank">
 		<img
-			alt="npm"
 			src="https://img.shields.io/npm/v/convert-pack?color=cb0000&logo=npm&style=flat-square"
+			alt="npm listing"
 		>
 	</a>
 	<a href="https://github.com/3vorp/convert-pack">
 		<img
-			alt="GitHub file size in bytes"
 			src="https://img.shields.io/github/size/3vorp/convert-pack/index.js?color=43A047&label=Script%20size&logoColor=green&style=flat-square"
+			alt="GitHub file size"
 		>
 	</a>
 	<a href="https://github.com/3vorp/convert-pack/blob/main/CHANGELOG.md">
 		<img
-			alt="Changelog"
 			src="https://img.shields.io/badge/Changelog-Read_Here-blue?style=flat-square"
+			alt="Changelog"
 		>
 	</a>
 	<br>
@@ -58,7 +58,7 @@ These are all valid uses of the command:
 
 ```sh
 convert-pack --input-edition java --output-version 1.8.9 ./input ./output
-convert-pack --iv 1.12.2 --oe bedrock ./input
+convert-pack --iv 1.12.2 --oe bedrock ./input ./output
 convert-pack . ./out --verbose --input-edition bedrock --output-edition java
 ```
 
