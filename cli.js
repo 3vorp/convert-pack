@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { existsSync, readFileSync } = require("fs");
-const { resolve } = require("path");
+const { existsSync, readFileSync } = require("node:fs");
+const { resolve } = require("node:path");
 const { convertPack } = require(".");
 
 const args = require("minimist")(process.argv.slice(2), {

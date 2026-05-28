@@ -1,6 +1,6 @@
-const { copyFile, mkdir } = require("fs/promises");
+const { copyFile, mkdir } = require("node:fs/promises");
 // why is there no async exists function
-const { existsSync } = require("fs");
+const { existsSync } = require("node:fs");
 
 async function getLatestVersion(edition) {
 	const versions = await fetch(
