@@ -1,4 +1,10 @@
 <div align="center">
+	<img
+		src="https://github.com/user-attachments/assets/fb7511ed-8824-42cb-9166-9c17a5e08b49"
+		width="128"
+		height="128"
+		alt="convert-pack logo"
+	/>
 	<h1>convert-pack</h1>
 	<a href="https://www.npmjs.com/package/convert-pack" target="_blank">
 		<img
