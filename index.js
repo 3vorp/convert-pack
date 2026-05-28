@@ -3,10 +3,10 @@ const { copyFile, mkdir } = require("fs/promises");
 const { existsSync } = require("fs");
 
 async function getLatestVersion(edition) {
-	const versions = await fetch(`https://api.faithfulpack.net/v2/settings/versions`).then((res) =>
-		res.json(),
-	);
-	return versions[edition][0];
+	const versions = await fetch(
+		`https://api.faithfulpack.net/v2/versions/edition/${edition}`,
+	).then((res) => res.json());
+	return versions[0];
 }
 
 async function generateConversionMap(inputEdition, outputEdition) {
